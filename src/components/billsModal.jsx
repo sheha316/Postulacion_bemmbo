@@ -83,6 +83,18 @@ export default function BillsModal({
 
 BillsModal.propTypes = {
   resetFunction: PropTypes.func.isRequired,
-  received: PropTypes.string.isRequired,
-  creditNote: PropTypes.string.isRequired,
+  received: PropTypes.shape({
+    id: PropTypes.string,
+    amount: PropTypes.number,
+    organization_id: PropTypes.string,
+    currency: PropTypes.string,
+    type: PropTypes.string,
+  }).isRequired,
+  creditNote: PropTypes.shape({
+    id: PropTypes.string,
+    amount: PropTypes.number,
+    organization_id: PropTypes.string,
+    currency: PropTypes.string,
+    type: PropTypes.string,
+  }).isRequired,
 };
