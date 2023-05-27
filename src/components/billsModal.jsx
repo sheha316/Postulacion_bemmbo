@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -18,10 +18,13 @@ const modalStyle = {
   p: 4,
 };
 
-export default function BillsModal({ resetFunction }) {
-  const [open, setOpen] = React.useState(false);
+export default function BillsModal({
+  resetFunction, received, creditNote,
+}) {
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const onSubmit = () => {
     resetFunction();
     setOpen(false);
@@ -57,6 +60,18 @@ export default function BillsModal({ resetFunction }) {
           >
             Nota de crédito asignada correctamente.
           </Typography>
+          <Typography
+            sx={{ mt: 2, alignSelf: 'center' }}
+          >
+            Monto nota de crédito:
+            {creditNote.amount}
+            <Typography />
+            Monto factura :
+            {received.amount}
+            <Typography />
+            Monto final :
+            {creditNote.amount - received.amount}
+          </Typography>
           <Button onClick={onSubmit} variant="contained" color="secondary">
             Seguir asignando
           </Button>
@@ -68,4 +83,6 @@ export default function BillsModal({ resetFunction }) {
 
 BillsModal.propTypes = {
   resetFunction: PropTypes.func.isRequired,
+  received: PropTypes.string.isRequired,
+  creditNote: PropTypes.string.isRequired,
 };

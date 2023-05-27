@@ -14,7 +14,7 @@ import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 
 export default function BillsTable({
-  data, handleChange, type, value,
+  data, handleChange, type, value, setBill, id,
 }) {
   const columns = [
     { field: 'radioButton', headerName: ' ' },
@@ -26,7 +26,7 @@ export default function BillsTable({
     <FormControl>
       <FormLabel />
       <RadioGroup
-        onChange={handleChange}
+        onChange={(e) => handleChange(e, setBill, type)}
         value={value}
       >
         <TableContainer component={Paper}>
@@ -39,32 +39,33 @@ export default function BillsTable({
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.filter((objeto) => objeto.type === type).map((bill, index) => (
-                <TableRow
-                  key={bill.id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell>
-                    <FormControlLabel value={index} control={<Radio />} label="" />
-                  </TableCell>
-                  <TableCell align="left">
-                    inv_
-                    {index}
-                    {' '}
-                    (
-                    {bill.organization_id}
-                    )
-                  </TableCell>
-                  <TableCell align="left">
-                    $
-                    {bill.amount}
-                    {' '}
-                    {bill.currency}
-                  </TableCell>
-                  <TableCell align="left">
-                    {bill.type}
-                  </TableCell>
-                </TableRow>
+              {data.filter((objeto) => (objeto.type === type && type === 'received')
+               || (objeto.type === type && type === 'credit_note' && objeto.reference === id)).map((bill, index) => (
+                 <TableRow
+                   key={bill.id}
+                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                 >
+                   <TableCell>
+                     <FormControlLabel value={index} control={<Radio />} label="" />
+                   </TableCell>
+                   <TableCell align="left">
+                     inv_
+                     {index}
+                     {' '}
+                     (
+                     {bill.organization_id}
+                     )
+                   </TableCell>
+                   <TableCell align="left">
+                     $
+                     {bill.amount}
+                     {' '}
+                     {bill.currency}
+                   </TableCell>
+                   <TableCell align="left">
+                     {bill.type}
+                   </TableCell>
+                 </TableRow>
               ))}
             </TableBody>
           </Table>
@@ -84,7 +85,10 @@ BillsTable.propTypes = {
   handleChange: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   value: PropTypes.string,
+  setBill: PropTypes.func.isRequired,
+  id: PropTypes.string,
 };
 BillsTable.defaultProps = {
   value: null,
+  id: null,
 };

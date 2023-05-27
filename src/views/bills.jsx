@@ -6,18 +6,27 @@ import Modal from '../components/billsModal';
 
 function Bills() {
   const [bills, setBills] = useState(0);
-  const [recived, setRecived] = useState(null);
+  const [received, setReceived] = useState(null);
   const [creditNote, setCreditNote] = useState(null);
 
-  const handleChangerecived = (event) => {
-    setRecived(event.target.value);
+  const [receivedBill, setReceivedBill] = useState(null);
+  const [creditNoteBill, setCreditNoteBill] = useState(null);
+
+  const handleChangeReceived = (event, setBill, type) => {
+    const index = event.target.value;
+    setBill(bills.filter((objeto) => objeto.type === type)[parseInt(index, 10)]);
+    setReceived(event.target.value);
   };
-  const handleChangecreditNote = (event) => {
+  const handleChangecreditNote = (event, setBill, type) => {
+    const index = event.target.value;
+    setBill(bills.filter((objeto) => objeto.type === type)[parseInt(index, 10)]);
     setCreditNote(event.target.value);
   };
   const resetFunction = () => {
     setCreditNote(null);
-    setRecived(null);
+    setReceived(null);
+    setReceivedBill(null);
+    setCreditNoteBill(null);
   };
   useEffect(() => {
     async function GetBills() {
@@ -34,25 +43,28 @@ function Bills() {
       {bills !== 0
         && (
           <Box style={{ alignSelf: 'center', padding: 5 }}>
-            {console.log(bills)}
             <Box style={{ fontWeight: 'bold', textAlign: 'center' }}>
               <h2>Selecciona una factura</h2>
             </Box>
-            <Table data={bills} handleChange={handleChangerecived} type="received" value={recived} />
+            <Table data={bills} handleChange={handleChangeReceived} type="received" value={received} setBill={setReceivedBill} />
           </Box>
         )}
 
-      {recived !== null && (
+      {receivedBill !== null && (
       <Box style={{ alignSelf: 'center', padding: 5 }}>
         <Box style={{ fontWeight: 'bold', textAlign: 'center' }}>
           <h2>Selecciona una nota de crédito</h2>
         </Box>
-        <Table data={bills} handleChange={handleChangecreditNote} type="credit_note" value={creditNote} />
+        <Table data={bills} handleChange={handleChangecreditNote} type="credit_note" value={creditNote} setBill={setCreditNoteBill} id={receivedBill.id} />
       </Box>
       )}
       {creditNote !== null && (
         <Box style={{ alignSelf: 'center' }}>
-          <Modal resetFunction={resetFunction} />
+          <Modal
+            resetFunction={resetFunction}
+            received={receivedBill}
+            creditNote={creditNoteBill}
+          />
         </Box>
       )}
     </Box>
