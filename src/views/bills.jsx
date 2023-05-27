@@ -14,12 +14,12 @@ function Bills() {
 
   const handleChangeReceived = (event, setBill, type) => {
     const index = event.target.value;
-    setBill(bills.filter((objeto) => objeto.type === type)[parseInt(index, 10)]);
+    setBill(bills.filter((element) => element.type === type)[parseInt(index, 10)]);
     setReceived(event.target.value);
   };
   const handleChangecreditNote = (event, setBill, type) => {
     const index = event.target.value;
-    setBill(bills.filter((objeto) => objeto.type === type)[parseInt(index, 10)]);
+    setBill(bills.filter((element) => element.type === type)[parseInt(index, 10)]);
     setCreditNote(event.target.value);
   };
   const resetFunction = () => {

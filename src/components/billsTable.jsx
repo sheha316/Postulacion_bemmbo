@@ -39,8 +39,8 @@ export default function BillsTable({
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.filter((objeto) => (objeto.type === type && type === 'received')
-               || (objeto.type === type && type === 'credit_note' && objeto.reference === id)).map((bill, index) => (
+              {data.filter((element) => (element.type === type && type === 'received')
+               || (element.type === type && type === 'credit_note' && element.reference === id)).map((bill, index) => (
                  <TableRow
                    key={bill.id}
                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
